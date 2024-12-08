@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clipboard Manipulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .copy-text {
+            font-size: 24px;
+            font-weight: bold;
+            background-color: yellow;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="copy-text" id="copyText">COPY ME</div>
+
+    <script>
+        document.getElementById('copyText').addEventListener('click', async function() {
+            try {
+                // Request clipboard permission for writing (this might require user interaction)
+                const permission = await navigator.permissions.query({ name: "clipboard-write" });
+
+                if (permission.state === "granted") {
+                    // Overwrite clipboard content with "null"
+                    await navigator.clipboard.writeText("null");
+
+                    alert('Text copied! Try pasting it anywhere now...');
+                } else {
+                    alert('Permission to modify clipboard denied.');
+                }
+            } catch (err) {
+                console.error('Failed to access clipboard:', err);
+                alert('Something went wrong. Clipboard manipulation not allowed.');
+            }
+        });
+    </script>
+</body>
+</html>
